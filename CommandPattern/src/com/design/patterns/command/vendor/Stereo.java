@@ -14,4 +14,12 @@ public class Stereo {
 	public void off() {
 		System.out.println(location + " Stereo switched off");
 	}
+	
+	public void setCD() {
+		System.out.println("CD inserted");
+	}
+	
+	public void setVolume() {
+		System.out.println("Volume increased");
+	}
 }
