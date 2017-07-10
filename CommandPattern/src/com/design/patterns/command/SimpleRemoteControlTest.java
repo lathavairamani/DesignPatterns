@@ -9,6 +9,13 @@ import com.design.patterns.command.vendor.GarageDoorOpenCommand;
 import com.design.patterns.command.vendor.Light;
 import com.design.patterns.command.vendor.LightOffCommand;
 import com.design.patterns.command.vendor.LightOnCommand;
+import com.design.patterns.command.vendor.MacroCommand;
+import com.design.patterns.command.vendor.Stereo;
+import com.design.patterns.command.vendor.StereoOffCommand;
+import com.design.patterns.command.vendor.StereoOnCommand;
+import com.design.patterns.command.vendor.TV;
+import com.design.patterns.command.vendor.TVOffCommand;
+import com.design.patterns.command.vendor.TVOnCommand;
 
 public class SimpleRemoteControlTest {
 
@@ -62,10 +69,33 @@ public class SimpleRemoteControlTest {
 		remote.onButton(2);
 		remote.offButton(2);
 		remote.onButton(3);
+		remote.onButton(3);
+		remote.undoButton();
 		remote.offButton(3);
 		remote.onButton(4);
 		remote.undoButton();
 		remote.offButton(4);
+		
+		// Party mode
+		TV tv = new TV("Living Room");
+		TVOnCommand tvOnCommand = new TVOnCommand(tv);
+		TVOffCommand tvOffCommand = new TVOffCommand(tv);
+		
+		Stereo stereo = new Stereo("Living Room");
+		StereoOnCommand stereoOnCommand = new StereoOnCommand(stereo);
+		StereoOffCommand stereoOffCommand = new StereoOffCommand(stereo);
+		
+		Command[] partyOn = {livingRoomLightOnCommand, tvOnCommand, stereoOnCommand, livingRoomFanOnCommand};
+		Command[] partyOff = {livingRoomLightOffCommand, tvOffCommand, stereoOffCommand, livingRoomFanOffCommand};
+		
+		MacroCommand partyOnCommand = new MacroCommand(partyOn);
+		MacroCommand partyOffCommand = new MacroCommand(partyOff);
+		
+		remote.setCommand(5, partyOnCommand, partyOffCommand);
+		remote.onButton(5);
+		remote.undoButton();
+		remote.offButton(5);
+		
 	}
 
 }
